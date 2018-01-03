@@ -1,3 +1,6 @@
+# django-react-app
+This web application is supposed to solve a challenge. It uses Django/python for the backend and ReactJs in the frontend. Further information about the challenge can be found following this link: https://github.com/hiddenfounders/web-coding-challenge/blob/master/README.md
+
 # A React/Redux Authentication Demo Site, using DjangoRestFramework/DjangoRestAuth
 
 -It is a good demonstration of how to integrate react/redux with django-rest-framework to build
