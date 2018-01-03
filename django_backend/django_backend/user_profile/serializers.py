@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from rest_auth.serializers import UserDetailsSerializer
+from .models import UserProfile
 
 
 class UserSerializer(UserDetailsSerializer):
@@ -18,7 +19,11 @@ class UserSerializer(UserDetailsSerializer):
         instance = super(UserSerializer, self).update(instance, validated_data)
 
         # get and update user profile
+        #profile = UserProfile.objects.get_or_create(user=instance)
+        #profile = profile[0]
+        
         profile = instance.userprofile
+        
         if profile_data:
             if website:
                 profile.website = website

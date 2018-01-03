@@ -54,7 +54,7 @@ INSTALLED_APPS = (
     # rest cors support
     'corsheaders',
 
-    'user_profile',
+    'django_backend.user_profile',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -74,7 +74,7 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+        'DIRS': [os.path.join(BASE_DIR, 'django_backend/templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,7 +129,7 @@ SITE_ID = 1
 
 ## User Authentication Settings
 
-ACCOUNT_ADAPTER = 'user_profile.adapter.MyAccountAdapter'
+ACCOUNT_ADAPTER = 'django_backend.user_profile.adapter.MyAccountAdapter'
 # Following is added to enable registration with email instead of username
 AUTHENTICATION_BACKENDS = (
  # Needed to login by username in Django admin, regardless of `allauth`
@@ -140,7 +140,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'user_profile.serializers.UserSerializer'
+    'USER_DETAILS_SERIALIZER': 'django_backend.user_profile.serializers.UserSerializer'
 }
 
 REST_SESSION_LOGIN = False
@@ -181,5 +181,5 @@ CORS_ORIGIN_REGEX_WHITELIST = (
 
 # Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = 'tmp/emails'
+EMAIL_FILE_PATH = 'django_backend/tmp/emails'
 DEFAULT_FROM_EMAIL = 'admin@admin.com'

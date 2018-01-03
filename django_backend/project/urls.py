@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from rest_framework import routers
 
-from user_profile.views import UserViewSet
+from django_backend.user_profile.views import UserViewSet
 
 router = routers.DefaultRouter()
 router.register(r'user', UserViewSet,)
