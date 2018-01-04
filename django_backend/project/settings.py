@@ -10,6 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
+"""
+TODO
+-Change the database to MongoDB
+-Connect to the remote Database
+-Install mongoengine for DRF
+-EDIT the models to adapt to the new environment
+"""
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
