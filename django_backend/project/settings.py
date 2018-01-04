@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'corsheaders',
 
     'django_backend.user_profile',
+    'django_backend.shops',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -15,6 +15,9 @@ import PasswordResetDone from "./auth/PasswordResetDone";
 import PasswordResetConfirm from "./auth/PasswordResetConfirm";
 import NoMatch from "./NoMatch";
 
+import NearbyShops from './services/NearbyShops'
+//import FavoriteShops from './services/FavoriteShops'
+
 const MainContent = () => (
     <div>
         <Switch>
@@ -30,6 +33,8 @@ const MainContent = () => (
             <Route path="/profile" component={RequireAuth(UserProfile)}/>
             <Route path="/profile_edit" component={RequireAuth(UserProfileEdit)}/>
             <Route path="/change_password" component={RequireAuth(PasswordChange)}/>
+            <Route path="/nearby-shops" component={RequireAuth(NearbyShops)}/>
+            {/*<Route path="/favorite-shops" component={RequireAuth(FavoriteShops)}/>*/}
             <Route component={NoMatch}/>
         </Switch>
     </div>

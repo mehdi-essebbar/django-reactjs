@@ -12,7 +12,12 @@ class Header extends Component {
     renderLinks() {
         if (this.props.authenticated) {
             return (
-                [
+                [   <li className="nav-item" key="nearby-shops">
+                        <Link className="nav-link" to="/nearby-shops">NearBy Shops</Link>
+                    </li>,
+                    <li className="nav-item" key="favorite-shops">
+                        <Link className="nav-link" to="/favorite-shops">My favorite Shops</Link>
+                    </li>,
                     <li className="nav-item" key="profile">
                         <Link className="nav-link" to="/profile">Profile</Link>
                     </li>,
