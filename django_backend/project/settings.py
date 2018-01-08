@@ -48,22 +48,28 @@ INSTALLED_APPS = (
     'django.contrib.sites',
 
     'rest_framework',
-    'rest_framework.authtoken',
-    'rest_auth',
-    'rest_auth.registration',
+    'rest_framework_mongoengine',
+    
+    'django_mongoengine',
+    'django_mongoengine.mongo_auth',
+    'django_mongoengine.mongo_admin',
+    #'rest_framework.authtoken',
+    #'rest_auth',
+    #'rest_auth.registration',
 
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
+    #'allauth',
+    #'allauth.account',
+    #'allauth.socialaccount',
 
     # 'allauth.socialaccount.providers.facebook',
     # 'allauth.socialaccount.providers.twitter',
 
     # rest cors support
-    'corsheaders',
+    #'corsheaders',
 
-    'django_backend.user_profile',
-    'django_backend.shops',
+    #'django_backend.user_profile',
+    #'django_backend.shops',
+    'django_backend.restauth'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -75,7 +81,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    #'corsheaders.middleware.CorsMiddleware',
 )
 
 ROOT_URLCONF = 'project.urls'
@@ -109,6 +115,14 @@ DATABASES = {
     }
 }
 
+MONGODB_DATABASES = {
+    "default": {
+        "name": "project",
+        "host": "mongodb://admin:azerty@cluster0-shard-00-00-uaelv.mongodb.net:27017,cluster0-shard-00-01-uaelv.mongodb.net:27017,cluster0-shard-00-02-uaelv.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin",
+        "port": 27017,
+        "tz_aware": True,  # if you use timezones in django (USE_TZ = True)
+    },
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -133,8 +147,26 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
 
 SITE_ID = 1
+
+SESSION_ENGINE = 'django_mongoengine.sessions'
+
+MONGOENGINE_USER_DOCUMENT = 'django_backend.restauth.models.User'
 
 ## User Authentication Settings
 
@@ -142,10 +174,11 @@ ACCOUNT_ADAPTER = 'django_backend.user_profile.adapter.MyAccountAdapter'
 # Following is added to enable registration with email instead of username
 AUTHENTICATION_BACKENDS = (
  # Needed to login by username in Django admin, regardless of `allauth`
- "django.contrib.auth.backends.ModelBackend",
+ #"django.contrib.auth.backends.ModelBackend",
+    'django_mongoengine.mongo_auth.backends.MongoEngineBackend',
 
  # `allauth` specific authentication methods, such as login by e-mail
- "allauth.account.auth_backends.AuthenticationBackend",
+ #"allauth.account.auth_backends.AuthenticationBackend",
 )
 
 REST_AUTH_SERIALIZERS = {
@@ -165,6 +198,7 @@ LOGOUT_ON_PASSWORD_CHANGE = False
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_THROTTLE_CLASSES': (
         'rest_framework.throttling.AnonRateThrottle',
@@ -175,6 +209,20 @@ REST_FRAMEWORK = {
         'user': '1000/day'
     }
 }
+
+# Internationalization
+# https://docs.djangoproject.com/en/1.9/topics/i18n/
+
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'UTC'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
+
 
 # Change CORS settings as needed
 
@@ -188,7 +236,11 @@ CORS_ORIGIN_REGEX_WHITELIST = (
     r'^(https?://)?127.',
 )
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 # Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'django_backend/tmp/emails'
 DEFAULT_FROM_EMAIL = 'admin@admin.com'
+ADMIN_EMAIL = 'admin@mail.com'
