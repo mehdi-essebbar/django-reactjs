@@ -54,6 +54,7 @@ class UserView(RetrieveUpdateAPIView):
         return User.objects.none()
     
     def put(self, request, *args, **kwargs):
+        print (request.data)
         return self.partial_update(request, *args, **kwargs)
     
 class PasswordChangeView(GenericAPIView):
@@ -227,6 +228,7 @@ class LoginView(views.APIView):
     serializer_class = AuthTokenSerializer
 
     def post(self, request, *args, **kwargs):
+        #print (request.data)
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         

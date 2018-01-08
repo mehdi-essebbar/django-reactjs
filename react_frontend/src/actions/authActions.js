@@ -22,7 +22,9 @@ export function loginUser(formValues, dispatch, props) {
         return axios.post(loginUrl, formValues).then((response) => {
             // If request is good...
             // Update state to indicate user is authenticated
-            const token = response.data.key;
+            console.log(response)
+            
+            const token = response.data.token;
             dispatch(authLogin(token));
 
             localStorage.setItem("token", token);
@@ -47,6 +49,7 @@ export function signupUser(formValues, dispatch, props) {
 
     return axios.post(signupUrl, formValues)
         .then((response) => {
+            console.log(response);
             // If request is good...
             // you can login if email verification is turned off.
             // const token = response.data.key;
@@ -162,8 +165,11 @@ export function activateUserAccount(formValues, dispatch, props) {
     const activateUserUrl = AuthUrls.USER_ACTIVATION;
     const data = Object.assign(formValues, { key });
 
-    return axios.post(activateUserUrl, data)
-        .then(response => {
+    return axios.get(activateUserUrl, {
+                params:{
+                token: data["key"]
+                }
+        }).then(response => {
             dispatch(notifSend({
                 message: "Your account has been activated successfully, please log in",
                 kind: "info",
@@ -181,7 +187,8 @@ export function activateUserAccount(formValues, dispatch, props) {
 
 export function updateUserProfile(formValues, dispatch, props) {
     const token = getUserToken(store.getState());
-
+    console.log("balbla")
+    console.log(token)
     return axios.patch(AuthUrls.USER_PROFILE, formValues, {
         headers: {
             authorization: 'Token ' + token

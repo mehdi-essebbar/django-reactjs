@@ -27,7 +27,9 @@ class User(AbstractUser):
     200 lines of boilerplate code from mongoengine.django.auth.User.
     """
     
-    bio = fields.StringField(max_length=1000)
+    #bio = fields.StringField(max_length=1000)
+    about = fields.StringField(max_length=1000, blank=True)
+    website = fields.URLField(blank=True)
     # For email validation
     email_is_valid = fields.BooleanField(default=False)
 

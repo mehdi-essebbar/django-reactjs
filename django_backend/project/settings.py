@@ -20,6 +20,7 @@ TODO
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import mongoengine
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -65,7 +66,7 @@ INSTALLED_APPS = (
     # 'allauth.socialaccount.providers.twitter',
 
     # rest cors support
-    #'corsheaders',
+    'corsheaders',
 
     #'django_backend.user_profile',
     #'django_backend.shops',
@@ -81,7 +82,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    #'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 )
 
 ROOT_URLCONF = 'project.urls'
@@ -163,6 +164,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 SITE_ID = 1
+
+# This is a dummy django model. It's just a crutch to keep django content,
+# while all the real functionality is associated with MONGOENGINE_USER_DOCUMENT
+AUTH_USER_MODEL = 'mongo_auth.MongoUser'
 
 SESSION_ENGINE = 'django_mongoengine.sessions'
 
