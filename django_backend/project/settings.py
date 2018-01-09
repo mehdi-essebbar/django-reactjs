@@ -69,7 +69,7 @@ INSTALLED_APPS = (
     'corsheaders',
 
     #'django_backend.user_profile',
-    #'django_backend.shops',
+    'django_backend.shops',
     'django_backend.restauth'
 )
 

@@ -1,24 +1,27 @@
-from django.db import models
-from django.contrib.auth.models import User
+from django.utils import timezone
+
+from mongoengine import fields, Document, ImproperlyConfigured
+import mongoengine
+from django_backend.restauth.models import User
 # Create your models here.
 
-class Shop(models.Model):
-    
-    name = models.CharField(max_length=200)
-    description = models.TextField()
-    picture = models.ImageField(upload_to='shops')
+class Shop(Document):
+    name = fields.StringField()
+    picture = fields.URLField()
+    email = fields.EmailField()
+    city = fields.StringField()
+    location = fields.PointField()
     
     def __str__(self):
         return self.name
-        
-class UserFavoriteShop(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now = True)
-    
-        
-class UserDislikedShop(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now = True)
+
+class FavoriteShop(Document):
+    user = fields.ReferenceField(User, reverse_delete_rule=mongoengine.CASCADE)
+    shop = fields.ReferenceField(Shop, reverse_delete_rule=mongoengine.CASCADE)
+    created_at = fields.DateTimeField(auto_now = True, default=timezone.now)
+
+class DislikeShop(Document):
+    user = fields.ReferenceField(User, reverse_delete_rule=mongoengine.CASCADE)
+    shop = fields.ReferenceField(Shop, reverse_delete_rule=mongoengine.CASCADE)
+    created_at = fields.DateTimeField(auto_now = True, default=timezone.now)
     

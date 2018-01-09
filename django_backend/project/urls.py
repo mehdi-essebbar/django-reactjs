@@ -12,6 +12,8 @@ urlpatterns = [
     #url(r'^', include('django.contrib.auth.urls')),
     url(r'^admin/', include(mongo_admin.site.urls)),
     url(r'^rest-auth/', include('django_backend.restauth.urls', namespace='rest-auth')),
+    url(r'^shops/', include('django_backend.shops.urls', namespace='shop')),
+    
     #url(r'^$', index_view, {}, name='index'),
     #url(r'^api/',  include(router.urls)),   
     #url(r'^api/shops/',  include('django_backend.shops.urls')),
