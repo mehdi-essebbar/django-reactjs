@@ -2,49 +2,61 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { likeShop } from "../../actions/serviceActions";
+import { likeShop, dislikeShop } from "../../actions/serviceActions";
 
 
 class ShopCard extends Component {
     constructor(props){
         super(props)
-        this.state = { disableLikeButton: "" };
+        this.state = { disableLikeButton: "", removeCard:null };
     }
     
     static propTypes = {
         likeShop: PropTypes.func.isRequired,
-        liked: PropTypes.bool
+        dislikeShop: PropTypes.func.isRequired,
+        liked: PropTypes.string,
+        disliked: PropTypes.string
     };
     
     dislikeFunc(shop_id)
     {
-        this.props.removeShopCard(shop_id, this.props.key);
+        this.props.dislikeShop(shop_id);
     }
     
     likeFunc(shop_id)
     {
-        // Send request with axios to like the shop
-        this.props.likeShop(shop_id);
+        if (this.props.isFavoriteList)
+            this.props.likeShop(shop_id, true);
+        else
+            this.props.likeShop(shop_id, false);
     }
     
     componentWillReceiveProps(nextProps)
     {
-        if(nextProps.liked)
-            this.setState({...this.state, disableLikeButton:" disabled"});            
+        //console.log(nextProps);
+        if(this.props.value.id==nextProps.liked)
+            this.setState({disableLikeButton:" disabled"});
+        
+        if(this.props.value.id==nextProps.disliked)
+            this.setState({removeCard:{display: "none"}});   
     }
     
-    renderLikeButton(is_favorite, id)
+    renderLikeButton(isFavoriteList, id)
     {
-        if(is_favorite>0)
-            return (<button className="btn btn-primary disabled">Like</button>);
-        return (<button className={"btn btn-primary"+this.state.disableLikeButton} onClick={()=> this.likeFunc(id)}>Like</button>);
+        // if the component is being rendred in the favorite list, no need to add a like button.
+        if(!this.props.favoriteList){
+            if(isFavoriteList>0)
+                return (<button className="btn btn-primary disabled">Like</button>);
+            return (<button className={"btn btn-primary"+this.state.disableLikeButton} onClick={()=> this.likeFunc(id)}>Like</button>);
+        }
+        return null
     }
     render()
     {
         const shop = this.props.value;
         return (
-            <div className="card">
-                <img className="card-img-top" src={shop.picture} alt="Card image cap"></img>
+            <div className="card"  style={this.state.removeCard}>
+                {/*<img className="card-img-top" src={shop.picture} alt="Card image cap"></img>*/}
                 <div className="card-block">
                     <h4>Name: {shop.name}</h4>
                     <h4>Email: {shop.email}</h4>
@@ -60,9 +72,10 @@ class ShopCard extends Component {
 }
 
 function mapStateToProps(state) {
-    return {
-    liked: state.service.liked
-    };
+        return {
+            liked: state.service.liked,
+            disliked: state.service.disliked
+        };
 }
 
-export default connect(mapStateToProps, { likeShop } )(ShopCard);
+export default connect(mapStateToProps, { dislikeShop, likeShop  } )(ShopCard);

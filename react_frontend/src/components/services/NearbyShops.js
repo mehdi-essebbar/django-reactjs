@@ -18,8 +18,7 @@ class NearbyShops extends Component {
     static propTypes = {
         getShop: PropTypes.func.isRequired,
         shops: PropTypes.array,
-        dislikeShop: PropTypes.func.isRequired,
-        disliked: PropTypes.number
+        
     };
 
     componentWillMount() {
@@ -30,22 +29,13 @@ class NearbyShops extends Component {
         if(nextProps.shops)
             this.setState({...this.state, dislikeThisShop:Array(nextProps.shops.length).fill(true)});
         
-        console.log(nextProps);
-        
-        if(nextProps.disliked)
-        {
-            const arr = this.state.dislikeThisShop.slice();
-            arr[nextProps.disliked] = false;
-            this.setState({...this.state, dislikeThisShop:arr});
-            console.log("hi");
-        }
     }
 
-    handleDislike(shop_id, i)
+    handleDislike(shop_id)
     {
-        this.props.dislikeShop(shop_id, i);
+        //this.props.dislikeShop(shop_id, i);
     }
-    
+    /*
     renderShop(shop, i)
     {
         if (this.state.dislikeThisShop[i])
@@ -53,16 +43,15 @@ class NearbyShops extends Component {
         
         return null;
     }
-    
+    */
     renderShops() {
         const shops = this.props.shops;
         
         if (shops) {
-            const rows = [];
-            for(var i=0; i<shops.length; i++)
-                rows.push(this.renderShop(shops[i], i));
             
-            return rows;
+            const listItems = shops.map( (shop) => <ShopCard key={shop.id} value={shop} /> )
+            
+            return listItems;
         }
         return null;
     }
@@ -77,16 +66,10 @@ class NearbyShops extends Component {
 }
 
 function mapStateToProps(state) {
-    if(state.service.disliked){
-        console.log("hello");
-        return {
-        disliked: state.service.disliked
-        };
-    }
     
     return {
         shops: state.service.shops
     };
 }
 
-export default connect(mapStateToProps, { getShop, dislikeShop } )(NearbyShops);
+export default connect(mapStateToProps, { getShop } )(NearbyShops);

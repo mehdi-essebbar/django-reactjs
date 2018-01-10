@@ -53,8 +53,8 @@ export function likeShop(shop_id) {
                     authorization: 'Token ' + token
                 }
             }).then(response => {
-                dispatch(setLiked(true));
-                console.log(response.data);
+                dispatch(setLiked(shop_id));
+                //console.log(response.data);
                 
             }).catch((error) => {
                 // If request is bad...
@@ -74,17 +74,30 @@ function setDisliked(payload) {
     };
 }
 
-export function dislikeShop(shop_id, k) {
+export function dislikeShop(shop_id, isFavoriteList) {
     return function(dispatch) {
+        let url = "";
+        let method = "";
+        if (isFavoriteList){
+            url = ServiceUrls.FAVORITE_SHOP;
+            method = 'delete';
+        }
+        else{
+            method = 'post';
+            url = ServiceUrls.DISLIKE_SHOP;
+        }
+        
         const token = getUserToken(store.getState());
         if (token) {
-            axios.post(ServiceUrls.DISLIKE_SHOP, { id: shop_id }, {
-                headers: {
-                    authorization: 'Token ' + token
-                }
+            axios({ method: method, 
+                    url: url,
+                    headers: {
+                        authorization: 'Token ' + token
+                    },
+                    data:{ id: shop_id }
             }).then(response => {
-                dispatch(setDisliked(k));
-                console.log(response.data);
+                dispatch(setDisliked(shop_id));
+                //console.log(response.data);
                 
             }).catch((error) => {
                 // If request is bad...
