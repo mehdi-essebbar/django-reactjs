@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getShop, dislikeShop } from "../../actions/serviceActions";
+import { getShops, dislikeShop } from "../../actions/serviceActions";
 import ShopCard from "./ShopCard";
 
 class NearbyShops extends Component {
@@ -12,44 +12,26 @@ class NearbyShops extends Component {
         this.state={...this.state,
             dislikeThisShop: Array(1).fill(true)
         };
-        this.handleDislike = this.handleDislike.bind(this);
     }
     
     static propTypes = {
-        getShop: PropTypes.func.isRequired,
+        getShops: PropTypes.func.isRequired,
         shops: PropTypes.array,
-        
     };
 
     componentWillMount() {
-        this.props.getShop();
+        if (this.props.isFavoriteList)
+            this.props.getShops(true);
+        else
+            this.props.getShops(false);
     }
     
-    componentWillReceiveProps(nextProps){
-        if(nextProps.shops)
-            this.setState({...this.state, dislikeThisShop:Array(nextProps.shops.length).fill(true)});
-        
-    }
-
-    handleDislike(shop_id)
-    {
-        //this.props.dislikeShop(shop_id, i);
-    }
-    /*
-    renderShop(shop, i)
-    {
-        if (this.state.dislikeThisShop[i])
-            return (<ShopCard key={i} value={shop} removeShopCard={(id, k) => this.handleDislike(id, k)}/>);
-        
-        return null;
-    }
-    */
     renderShops() {
         const shops = this.props.shops;
         
         if (shops) {
             
-            const listItems = shops.map( (shop) => <ShopCard key={shop.id} value={shop} /> )
+            const listItems = shops.map( (shop) => <ShopCard key={shop.id} value={shop} isFavoriteList={this.props.isFavoriteList} /> )
             
             return listItems;
         }
@@ -72,4 +54,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { getShop } )(NearbyShops);
+export default connect(mapStateToProps, { getShops } )(NearbyShops);

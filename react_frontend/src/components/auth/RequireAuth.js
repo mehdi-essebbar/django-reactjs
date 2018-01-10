@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {withRouter} from "react-router-dom";
 import { connect } from "react-redux";
 
-export default function(ComposedComponent) {
+export default function(ComposedComponent, moreProps=null) {
     class Authentication extends Component {
 
         static propTypes = {
@@ -26,7 +26,7 @@ export default function(ComposedComponent) {
         }
 
         render() {
-            return <ComposedComponent {...this.props} />
+            return <ComposedComponent {...Object.assign({} ,...this.props, moreProps)} />
         }
     }
 

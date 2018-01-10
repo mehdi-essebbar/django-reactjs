@@ -41,15 +41,15 @@ class ShopCard extends Component {
             this.setState({removeCard:{display: "none"}});   
     }
     
-    renderLikeButton(isFavoriteList, id)
+    renderLikeButton(isFavorite, id)
     {
         // if the component is being rendred in the favorite list, no need to add a like button.
-        if(!this.props.favoriteList){
-            if(isFavoriteList>0)
+        if(!this.props.isFavoriteList){
+            if(isFavorite)
                 return (<button className="btn btn-primary disabled">Like</button>);
             return (<button className={"btn btn-primary"+this.state.disableLikeButton} onClick={()=> this.likeFunc(id)}>Like</button>);
         }
-        return null
+        return null;
     }
     render()
     {

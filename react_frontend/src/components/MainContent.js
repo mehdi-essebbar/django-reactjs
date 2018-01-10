@@ -33,7 +33,8 @@ const MainContent = () => (
             <Route path="/profile" component={RequireAuth(UserProfile)}/>
             <Route path="/profile_edit" component={RequireAuth(UserProfileEdit)}/>
             <Route path="/change_password" component={RequireAuth(PasswordChange)}/>
-            <Route path="/nearby-shops" component={RequireAuth(NearbyShops)}/>
+            <Route path="/shops/nearby" component={RequireAuth(NearbyShops, {isFavoriteList: false})} />
+            <Route path="/shops/favorite" component={RequireAuth(NearbyShops, {isFavoriteList: true})} />
             {/*<Route path="/favorite-shops" component={RequireAuth(FavoriteShops)}/>*/}
             <Route component={NoMatch}/>
         </Switch>

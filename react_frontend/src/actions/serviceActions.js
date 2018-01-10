@@ -17,11 +17,18 @@ function setShop(payload) {
     };
 }
 
-export function getShop() {
+export function getShops(isFavoriteList) {
     return function(dispatch) {
+        let url = "";
+        if (isFavoriteList)
+            url = ServiceUrls.FAVORITE_SHOPS;
+        else
+            url = ServiceUrls.SHOPS;
+        
+        console.log(url);
         const token = getUserToken(store.getState());
         if (token) {
-            axios.get(ServiceUrls.SHOPS, {
+            axios.get(url, {
                 headers: {
                     authorization: 'Token ' + token
                 }
@@ -48,7 +55,7 @@ export function likeShop(shop_id) {
     return function(dispatch) {
         const token = getUserToken(store.getState());
         if (token) {
-            axios.post(ServiceUrls.FAVORITE_SHOP, { id: shop_id }, {
+            axios.post(ServiceUrls.FAVORITE_SHOPS, { id: shop_id }, {
                 headers: {
                     authorization: 'Token ' + token
                 }
@@ -79,7 +86,7 @@ export function dislikeShop(shop_id, isFavoriteList) {
         let url = "";
         let method = "";
         if (isFavoriteList){
-            url = ServiceUrls.FAVORITE_SHOP;
+            url = ServiceUrls.FAVORITE_SHOPS;
             method = 'delete';
         }
         else{
