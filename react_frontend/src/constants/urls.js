@@ -11,5 +11,7 @@ export const AuthUrls = {
 };
 
 export const ServiceUrls = {
-    SHOPS: `${ROOT_URL}api/shops/`
+    SHOPS: `${ROOT_URL}shops/`,
+    FAVORITE_SHOP: `${ROOT_URL}shops/favorite/`,
+    DISLIKE_SHOP: `${ROOT_URL}shops/dislike/`,
 };

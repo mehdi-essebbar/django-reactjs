@@ -14,9 +14,6 @@ urlpatterns = [
     url(r'^rest-auth/', include('django_backend.restauth.urls', namespace='rest-auth')),
     url(r'^shops/', include('django_backend.shops.urls', namespace='shop')),
     
-    #url(r'^$', index_view, {}, name='index'),
-    #url(r'^api/',  include(router.urls)),   
-    #url(r'^api/shops/',  include('django_backend.shops.urls')),
 ]
 
 # let django built-in server serve static and media content

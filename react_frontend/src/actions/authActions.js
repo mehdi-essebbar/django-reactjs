@@ -139,9 +139,9 @@ export function resetPassword(formValues, dispatch, props) {
 }
 
 export function confirmPasswordChange(formValues, dispatch, props) {
-    const { uid, token } = props.match.params;
+    const { token } = props.match.params;
     const resetPasswordConfirmUrl = AuthUrls.RESET_PASSWORD_CONFIRM;
-    const data = Object.assign(formValues, { uid, token });
+    const data = Object.assign(formValues, { token });
 
     return axios.post(resetPasswordConfirmUrl, data)
         .then(response => {

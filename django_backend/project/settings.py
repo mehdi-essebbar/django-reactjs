@@ -117,12 +117,18 @@ DATABASES = {
 }
 
 MONGODB_DATABASES = {
-    "default": {
+    "distant": {
         "name": "project",
         "host": "mongodb://admin:azerty@cluster0-shard-00-00-uaelv.mongodb.net:27017,cluster0-shard-00-01-uaelv.mongodb.net:27017,cluster0-shard-00-02-uaelv.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin",
         "port": 27017,
-        "tz_aware": True,  # if you use timezones in django (USE_TZ = True)
+        "tz_aware": True,  # if you use timezones in django (USE_TZ = True) 
     },
+    "default": {
+        "name": "test",
+        "host": "127.0.0.1:27017",
+        "port": 27017,
+        "tz_aware": True,  # if you use timezones in django (USE_TZ = True) 
+    }
 }
 
 # Internationalization

@@ -36,3 +36,63 @@ export function getShop() {
         }
     };
 }
+
+function setLiked(payload) {
+    return {
+        type: ServiceTypes.LIKED,
+        payload: payload
+    };
+}
+
+export function likeShop(shop_id) {
+    return function(dispatch) {
+        const token = getUserToken(store.getState());
+        if (token) {
+            axios.post(ServiceUrls.FAVORITE_SHOP, { id: shop_id }, {
+                headers: {
+                    authorization: 'Token ' + token
+                }
+            }).then(response => {
+                dispatch(setLiked(true));
+                console.log(response.data);
+                
+            }).catch((error) => {
+                // If request is bad...
+                // Show an error to the user
+                console.log(error);
+                // TODO: send notification and redirect
+                //dispatch(setLiked(false));
+            });
+        }
+    };
+}
+
+function setDisliked(payload) {
+    return {
+        type: ServiceTypes.DISLIKED,
+        payload: payload
+    };
+}
+
+export function dislikeShop(shop_id, k) {
+    return function(dispatch) {
+        const token = getUserToken(store.getState());
+        if (token) {
+            axios.post(ServiceUrls.DISLIKE_SHOP, { id: shop_id }, {
+                headers: {
+                    authorization: 'Token ' + token
+                }
+            }).then(response => {
+                dispatch(setDisliked(k));
+                console.log(response.data);
+                
+            }).catch((error) => {
+                // If request is bad...
+                // Show an error to the user
+                console.log(error);
+                // TODO: send notification and redirect
+                //dispatch(setDisliked(false));
+            });
+        }
+    };
+}

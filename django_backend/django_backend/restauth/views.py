@@ -90,7 +90,7 @@ class SignUpView(GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(request)
-        
+                
         (token, validToken) = self.create_token(User.objects.get(username=serializer.validated_data['username']))
         sent = self.send_validation_email(serializer.validated_data['email'], token)
         
@@ -108,8 +108,8 @@ class SignUpView(GenericAPIView):
                 and be able to login to our plateform you need to 
                 validate your email address by clicking on the link bellow.
                 Thank you!"""
-        url= self.request.get_host()
-        msg +="\n\n" + url +reverse("rest-auth:verify_email")+"?token="+ token
+        url= self.request.META['HTTP_ORIGIN']
+        msg +="\n\n" + url +"/account/confirm-email/" + token
         
         n = send_mail(
             'Validation Email to Signup',

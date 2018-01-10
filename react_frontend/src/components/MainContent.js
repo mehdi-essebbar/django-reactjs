@@ -29,7 +29,7 @@ const MainContent = () => (
             <Route path="/signup_done" component={SignupDone}/>
             <Route path="/reset_password" component={PasswordReset}/>
             <Route path="/reset_password_done" component={PasswordResetDone}/>
-            <Route path="/reset/:uid/:token/" component={PasswordResetConfirm}/>
+            <Route path="/reset/:token/" component={PasswordResetConfirm}/>
             <Route path="/profile" component={RequireAuth(UserProfile)}/>
             <Route path="/profile_edit" component={RequireAuth(UserProfileEdit)}/>
             <Route path="/change_password" component={RequireAuth(PasswordChange)}/>

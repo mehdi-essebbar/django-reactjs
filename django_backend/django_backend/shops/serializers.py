@@ -18,32 +18,55 @@ import sys
 
 
 class NearbyShopSerializer(DocumentSerializer):
-    shop_id = fields.ObjectIdField(source='id')
-    is_favorite = fields.BooleanField(default=False)
+    #shop_id = fields.ObjectIdField(source='id')
+    is_favorite = serializers.SerializerMethodField()
     
     class Meta:
         model = Shop
-        fields = ('id', 'name', 'email', 'picture', 'city', )
+        fields = ('id', 'name', 'email', 'picture', 'city', 'is_favorite' )
     
+    def __init__(self, *args, **kwargs):
+        super(NearbyShopSerializer, self).__init__(*args, **kwargs)
+        self.request = self.context.get('request')
+        self.user = getattr(self.request, 'user', None)
+    
+    def get_is_favorite(self, obj):
+        try:
+            FavoriteShop.objects.get(user=self.user, shop=obj)
+        except DoesNotExist:
+            return 0
+            
+        return 1
+        
+
+        
 class DislikeShopSerializer(serializers.Serializer):
     
-    shop_id = serializers.CharField()
+    id = serializers.CharField()
     
     def __init__(self, *args, **kwargs):
         super(DislikeShopSerializer, self).__init__(*args, **kwargs)
         self.request = self.context.get('request')
         self.user = getattr(self.request, 'user', None)
     
-    def validate_shop_id(self, shop_id):
+    def validate_id(self, id):
         #Check if the shop id does exist
         try:
-            self.shop = Shop.objects.get(id=shop_id)
+            self.shop = Shop.objects.get(id=id)
         except DoesNotExist:
             raise serializers.ValidationError("The given shop id does not exists.")
         
-        return shop_id
+        return id
     
     def save(self):
+        # if the shop was in the favorite list, take it off
+        try:
+            noMoreFave = FavoriteShop.objects.get(user=self.user, shop=self.shop)
+            noMoreFave.delete()
+        except DoesNotExist:
+            # do nothing
+            pass
+        
         dislike = DislikeShop(user=self.user, shop=self.shop)
         dislike.save()
 """

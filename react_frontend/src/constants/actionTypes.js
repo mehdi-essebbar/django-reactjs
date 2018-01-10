@@ -6,5 +6,8 @@ export const AuthTypes = {
 };
 
 export const ServiceTypes = {
-    SHOPS: "SHOPS"
+    SHOPS: "SHOPS",
+    LIKED: "LIKDED",
+    DISLIKED: "DISLIKED",
+    
 };

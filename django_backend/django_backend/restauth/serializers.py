@@ -214,8 +214,8 @@ class PasswordResetSerializer(serializers.Serializer):
         token = PasswordResetToken(user=self.user)
         token.save()
         print (token)
-        url= self.request.get_host()
-        msg +="\n\n" + url +reverse("rest-auth:pwd_confirm")+"?token="+ token.token
+        url= self.request.META['HTTP_ORIGIN']
+        msg +="\n\n" + url +"/reset/"+ token.token
         
         n = send_mail(
             'Reset password',

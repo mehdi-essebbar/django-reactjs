@@ -46,7 +46,11 @@ class NearbyShopView(ListAPIView):
                 disliked_shops_2h.append(str(disliked_shop.shop.id))
 
         result = Shop.objects.filter(id__nin=disliked_shops_2h).limit(5)
-        # Add the attribute is_favorite to the results
+        
+        # order query results
+        if 'location' in self.request.query_params:
+            # coordinates needs to be validated and typed 
+            result = result.objects(location__near=self.request.query_params['location'])
         
         return result
  
@@ -88,24 +92,6 @@ class FavoriteShopView(mixins.DestroyModelMixin,
         return self.destroy(request, *args, **kwargs)
         
     def post(self, request, *args, **kwargs):
+        print (request.data)
         return self.create(request, *args, **kwargs)
         
-"""
-class RemoveCreateShopView(mixins.DestroyModelMixin, mixins.CreateModelMixin,
-                            GenericAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    authentication_classes = (TokenAuthentication, )
-    serializer_class = RemoveCreateFavoriteShopSerializer
-    
-    def get_object(self):
-        serializer = self.get_serializer(data = self.request.data)
-        serializer.is_valid(raise_exception=True)
-        
-        return serializer.get_object()
-    
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-    
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
-        """
