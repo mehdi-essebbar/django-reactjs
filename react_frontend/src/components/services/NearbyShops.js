@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getShops, dislikeShop } from "../../actions/serviceActions";
 import ShopCard from "./ShopCard";
+import CaptureUserLocation from "./CaptureUserLocation";
+
 
 class NearbyShops extends Component {
 
@@ -40,7 +42,9 @@ class NearbyShops extends Component {
 
     render() {
         return (
+        
             <div>
+            <CaptureUserLocation />
             {this.renderShops()}
             </div>
         );

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import CaptureUserLocation from "./services/CaptureUserLocation";
+import {Nav, Navbar, NavItem } from "react-bootstrap";
 
 class Header extends Component {
 
@@ -12,30 +14,31 @@ class Header extends Component {
     renderLinks() {
         if (this.props.authenticated) {
             return (
-                [   <li className="nav-item" key="nearby-shops">
-                        <Link className="nav-link" to="/shops/nearby">NearBy Shops</Link>
-                    </li>,
-                    <li className="nav-item" key="favorite-shops">
-                        <Link className="nav-link" to="/shops/favorite">My favorite Shops</Link>
-                    </li>,
-                    <li className="nav-item" key="profile">
-                        <Link className="nav-link" to="/profile">Profile</Link>
-                    </li>,
-                    <li className="nav-item" key="logout">
-                        <Link className="nav-link" to="/logout">Logout</Link>
-                    </li>
+                [ 
+                    <NavItem key={1} componentClass={Link} href="/shops/nearby" to="/shops/nearby">
+                        Nearby Shops
+                    </NavItem>,
+                    <NavItem key={2} componentClass={Link} href="/shops/favorite" to="/shops/favorite">
+                        My Favorite Shops
+                    </NavItem>,
+                    <NavItem key={3} componentClass={Link} href="/profile" to="/profile">
+                        Profile
+                    </NavItem>,
+                    <NavItem key={4} componentClass={Link} href="/logout" to="/logout">
+                        Logout
+                    </NavItem>
                 ]
             );
 
         } else {
             return (
                 [
-                    <li className="nav-item" key="login">
-                        <Link className="nav-link" to="/login">Login</Link>
-                    </li>,
-                    <li className="nav-item" key="signup">
-                        <Link className="nav-link" to="/signup">Sign Up</Link>
-                    </li>
+                    <NavItem key={1} componentClass={Link} href="/login" to="/login">
+                        Login
+                    </NavItem>,
+                    <NavItem key={2} componentClass={Link} href="/signup" to="/signup">
+                        Sign Up
+                    </NavItem>
                 ]
             );
         }
@@ -43,12 +46,16 @@ class Header extends Component {
 
     render() {
         return (
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <Link to="/" className="navbar-brand">Auth Demo</Link>
-                <ul className="navbar-nav">
+            <Navbar>
+                <Navbar.Header>
+                    <Navbar.Brand>
+                        <Link to="/">Demo Shops</Link>
+                    </Navbar.Brand>
+                </Navbar.Header>
+                <Nav>
                     {this.renderLinks()}
-                </ul>
-            </nav>
+                </Nav>
+            </Navbar>
         )
     }
 }

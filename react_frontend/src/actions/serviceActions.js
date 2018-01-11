@@ -25,7 +25,6 @@ export function getShops(isFavoriteList) {
         else
             url = ServiceUrls.SHOPS;
         
-        console.log(url);
         const token = getUserToken(store.getState());
         if (token) {
             axios.get(url, {
