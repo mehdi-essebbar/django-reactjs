@@ -105,7 +105,6 @@ class CaptureUserLocation extends Component {
 			<div>
 				<Button bsStyle="primary" bsSize="xsmall" onClick={this.handleShow}>
                     <Glyphicon glyph="globe" />
-					
 				</Button>
 
 				<Modal show={this.state.showModal} onHide={this.handleClose}>

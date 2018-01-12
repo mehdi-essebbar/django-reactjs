@@ -17,7 +17,7 @@ function setShop(payload) {
     };
 }
 
-export function getShops(isFavoriteList) {
+export function getShops(isFavoriteList, page) {
     return function(dispatch) {
         let url = "";
         if (isFavoriteList)
@@ -31,7 +31,8 @@ export function getShops(isFavoriteList) {
                 headers: {
                     authorization: 'Token ' + token
                 },
-                params: store.getState().service.userLocation
+                params: {...store.getState().service.userLocation, 
+                page: page}
             }).then(response => {
                 dispatch(setShop(response.data))
             }).catch((error) => {

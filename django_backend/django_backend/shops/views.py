@@ -6,6 +6,7 @@ from rest_framework import views, mixins, permissions, exceptions, status, seria
 from rest_framework.response import Response
 from rest_framework import parsers, renderers
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView, ListAPIView, CreateAPIView
+from rest_framework.pagination import PageNumberPagination
 
 from .serializers import NearbyShopSerializer, DislikeShopSerializer, FavoriteShopSerilizer#, RemoveCreateFavoriteShopSerializer
 from .models import Shop, FavoriteShop, DislikeShop
@@ -37,6 +38,11 @@ def validate_location(data):
             
     return []
 
+class MyPaginationClass(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+    
 class NearbyShopView(ListAPIView):
     # This view takes as input the coordinates of the user
     # and outputs a list of shops ordered by how near the 
@@ -50,6 +56,7 @@ class NearbyShopView(ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     authentication_classes = (TokenAuthentication,)
     serializer_class = NearbyShopSerializer
+    pagination_class = MyPaginationClass
     
     def get_queryset(self):
         # First, lets filter the result by taking off disliked shops
@@ -63,7 +70,7 @@ class NearbyShopView(ListAPIView):
             if time_diff_minutes < 120:
                 disliked_shops_2h.append(str(disliked_shop.shop.id))
 
-        result = Shop.objects.filter(id__nin=disliked_shops_2h).limit(5)
+        result = Shop.objects.filter(id__nin=disliked_shops_2h)
         
         location = validate_location(self.request.query_params)
         if location:
@@ -88,6 +95,7 @@ class FavoriteShopView(mixins.DestroyModelMixin,
     permission_classes = (permissions.IsAuthenticated,)
     authentication_classes = (TokenAuthentication, )
     serializer_class = FavoriteShopSerilizer
+    pagination_class = MyPaginationClass
     
     def get_object(self):
         serializer = self.get_serializer(data=self.request.data)
@@ -111,11 +119,22 @@ class FavoriteShopView(mixins.DestroyModelMixin,
         return results
  
     def get(self, request, *args, **kwargs):
-        
+        """
         serializer = NearbyShopSerializer(self.get_queryset(), many=True)
         return Response(serializer.data)
-        
-        #return self.list(request, *args, **kwargs)
+        """
+        return self.list(request, *args, **kwargs)
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = NearbyShopSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = NearbyShopSerializer(queryset, many=True)
+        return Response(serializer.data)
     
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)

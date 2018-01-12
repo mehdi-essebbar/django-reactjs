@@ -14,7 +14,7 @@ class Header extends Component {
     renderLinks() {
         if (this.props.authenticated) {
             return (
-                [<Nav key={1}>
+                [<Nav key={10}>
                     <NavItem key={1} componentClass={Link} href="/shops/nearby" to="/shops/nearby">
                         Nearby Shops
                     </NavItem>
@@ -28,7 +28,7 @@ class Header extends Component {
                         Logout
                     </NavItem>
                 </Nav>,
-                <Nav key={2} pullRight>
+                <Nav key={20} pullRight>
                     <NavItem >
                         <CaptureUserLocation />
                     </NavItem>
