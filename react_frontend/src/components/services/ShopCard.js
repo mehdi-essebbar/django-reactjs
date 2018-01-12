@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { likeShop, dislikeShop } from "../../actions/serviceActions";
+import {Thumbnail} from "react-bootstrap";
 
 
 class ShopCard extends Component {
@@ -55,17 +56,18 @@ class ShopCard extends Component {
     {
         const shop = this.props.value;
         return (
-            <div className="card"  style={this.state.removeCard}>
-                {/*<img className="card-img-top" src={shop.picture} alt="Card image cap"></img>*/}
-                <div className="card-block">
-                    <h4>Name: {shop.name}</h4>
-                    <h4>Email: {shop.email}</h4>
-                    <h4>City: {shop.city}</h4>                        
-                    {" "}
-                    <hr />
-                    <button className="btn btn-primary mr-2"  onClick={() => this.dislikeFunc(shop.id)}>Dislike</button>
-                    {this.renderLikeButton(shop.is_favorite, shop.id)}
-                </div>
+            <div style={this.state.removeCard}>
+                <Thumbnail src={shop.picture} alt="Card image cap">
+                    <div className="card-block">
+                        <h4 className="card-title">Name: {shop.name}</h4>
+                        <p className="card-text">Email: {shop.email}</p>
+                        <p className="card-text">City: {shop.city}</p>                        
+                        {" "}
+                        <hr />
+                        <button className="btn btn-primary mr-2"  onClick={() => this.dislikeFunc(shop.id)}>Dislike</button>
+                        {this.renderLikeButton(shop.is_favorite, shop.id)}
+                    </div>
+                </Thumbnail>
             </div>
         );
     }

@@ -102,8 +102,8 @@ class CaptureUserLocation extends Component {
             )
         
 		return (
-			<div>
-				<Button bsStyle="primary" bsSize="xsmall" onClick={this.handleShow}>
+			<div style={{marginRight: '30px'}}>
+				<Button bsStyle="primary" bsSize="sm" onClick={this.handleShow}>
                     <Glyphicon glyph="globe" />
 				</Button>
 
