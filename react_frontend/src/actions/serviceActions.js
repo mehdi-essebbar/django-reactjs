@@ -30,7 +30,8 @@ export function getShops(isFavoriteList) {
             axios.get(url, {
                 headers: {
                     authorization: 'Token ' + token
-                }
+                },
+                params: store.getState().service.userLocation
             }).then(response => {
                 dispatch(setShop(response.data))
             }).catch((error) => {
@@ -113,5 +114,12 @@ export function dislikeShop(shop_id, isFavoriteList) {
                 //dispatch(setDisliked(false));
             });
         }
+    };
+}
+
+export function changeUserLocation(userLocation){
+    return function(dispatch) {
+        dispatch({type: ServiceTypes.LOCATION,
+            payload: userLocation})
     };
 }

@@ -20,7 +20,7 @@ class ShopCard extends Component {
     
     dislikeFunc(shop_id)
     {
-        this.props.dislikeShop(shop_id);
+        this.props.dislikeShop(shop_id, this.props.isFavoriteList);
     }
     
     likeFunc(shop_id)

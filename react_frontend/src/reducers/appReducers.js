@@ -1,6 +1,4 @@
-import { AuthTypes } from "../constants/actionTypes";
-import { ServiceTypes } from "../constants/actionTypes";
-
+import { AuthTypes, ServiceTypes } from "../constants/actionTypes";
 
 export function authReducer(state = {}, action) {
     switch(action.type) {
@@ -22,6 +20,8 @@ export function serviceReducer(state = {}, action) {
             return { ...state, liked: action.payload};
         case ServiceTypes.DISLIKED:
             return { ...state, disliked: action.payload};
+        case ServiceTypes.LOCATION:
+            return { ...state, userLocation: action.payload};
     }
     return state;
 }

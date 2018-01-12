@@ -9,5 +9,5 @@ export const ServiceTypes = {
     SHOPS: "SHOPS",
     LIKED: "LIKDED",
     DISLIKED: "DISLIKED",
-    
+    LOCATION: "LOCATION",
 };

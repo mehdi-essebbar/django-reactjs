@@ -19,6 +19,7 @@ class FavoriteShop(Document):
     user = fields.ReferenceField(User, reverse_delete_rule=mongoengine.CASCADE)
     shop = fields.ReferenceField(Shop, reverse_delete_rule=mongoengine.CASCADE)
     created_at = fields.DateTimeField(auto_now = True, default=timezone.now)
+    location = fields.PointField()
 
 class DislikeShop(Document):
     user = fields.ReferenceField(User, reverse_delete_rule=mongoengine.CASCADE)

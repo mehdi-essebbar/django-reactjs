@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import {Popover, Tooltip, Modal, Button, OverlayTrigger} from "react-bootstrap";
+import { Modal, Button, Glyphicon } from "react-bootstrap";
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import { withState, withHandlers, compose, withProps } from "recompose";
-//import  from "react-bootstrap";
+import { changeUserLocation } from "../../actions/serviceActions"
+import store from "../../store";
 
 class CaptureUserLocation extends Component {
     constructor(...args) {
@@ -12,9 +13,14 @@ class CaptureUserLocation extends Component {
 
 		this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
-
+        
 		this.state = { showModal: false, currentLocation:{ lat: 34.016425960458186, lng: -6.835730738195826 } };
 	}
+    
+    static propTypes = {
+        changeUserLocation: PropTypes.func.isRequired,
+        userLocation: PropTypes.object
+    };
  
 	handleClose() {
 		this.setState({ showModal: false });
@@ -29,7 +35,6 @@ class CaptureUserLocation extends Component {
         if (navigator && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((pos) => {
                 const coords = pos.coords;
-                console.log(coords);
                 document.getElementById('lat').value = coords.latitude;
                 document.getElementById('lng').value = coords.longitude;
                 this.setState({
@@ -46,11 +51,11 @@ class CaptureUserLocation extends Component {
         // This function should save the user location choice
         // in the state as 'location'
         //let mpDiv = map.getDiv();
-        //document.getElementById('map').appendChild(mpDiv);
-        
-    }
-    positionChanged(newPos){
-        this.setState({position: newPos})
+        //document.getElementById('lat').appendChild(mpDiv);
+        const currentLocation = {lat:parseFloat(document.getElementById('lat').value), lng:parseFloat(document.getElementById('lng').value)};
+        this.setState({currentLocation: currentLocation});
+        this.props.changeUserLocation(currentLocation);
+        this.handleClose();
     }
     
 	render() {
@@ -87,11 +92,9 @@ class CaptureUserLocation extends Component {
               <GoogleMap
                 defaultZoom={8}
                 defaultCenter={{ lat:props.currentLocation.lat, lng: props.currentLocation.lng }}
-                zoom={props.zoom}
                 editedCenter={props.editedCenter}
                 center={props.currentLocation}
                 ref={props.onMapMounted}
-                onZoomChanged={props.onZoomChanged}
                 onCenterChanged={props.onCenterChanged}
               >
                 {props.isMarkerShown && <Marker position={{ lat: props.editedCenter.lat, lng: props.editedCenter.lng }} />}
@@ -100,32 +103,34 @@ class CaptureUserLocation extends Component {
         
 		return (
 			<div>
-				<p>Click to get the full Modal experience!</p>
-
-				<Button bsStyle="primary" bsSize="small" onClick={this.handleShow}>
-					Launch demo modal
+				<Button bsStyle="primary" bsSize="xsmall" onClick={this.handleShow}>
+                    <Glyphicon glyph="globe" />
+					
 				</Button>
 
 				<Modal show={this.state.showModal} onHide={this.handleClose}>
 					<Modal.Header closeButton>
-						<Modal.Title>Modal heading</Modal.Title>
+						<Modal.Title>Choose a location</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
-						<p> Hey, this is your test for Modals with react-bootsrap module!</p>
-                        <MyMapComponent currentLocation={this.state.currentLocation} isMarkerShown positionChanged={(newPos)=> this.positionChanged(newPos)}/>
+                        <MyMapComponent currentLocation={this.state.currentLocation} isMarkerShown/>
                     </Modal.Body>
                     <Modal.Footer>
-                        <input type="text" id="lat" readonly="yes" />
-                        <input type="text" id="lng" readonly="yes" />
+                        <input type="text" id="lat" readOnly="yes" value={this.state.currentLocation.lat} />
+                        <input type="text" id="lng" readOnly="yes" value={this.state.currentLocation.lng} />
                         <Button onClick={() => this.handleCurrentPosition()}>Current Position</Button>
-                        <Button onClick={this.handleSave}>Save</Button>
+                        <Button onClick={() => this.handleSave()}>Save</Button>
                         <Button onClick={this.handleClose}>Close</Button>
                     </Modal.Footer>
                 </Modal>
             </div>);
     }
     
-    //render(){ return <span> bzzz</span>; }
 }
 
-export default CaptureUserLocation;
+function mapStateToProps(state) {
+    return {
+        userLocation: state.service.userLocation
+    }
+}
+export default connect(mapStateToProps, { changeUserLocation })(CaptureUserLocation);

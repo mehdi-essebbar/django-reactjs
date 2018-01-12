@@ -14,32 +14,39 @@ class Header extends Component {
     renderLinks() {
         if (this.props.authenticated) {
             return (
-                [ 
+                [<Nav key={1}>
                     <NavItem key={1} componentClass={Link} href="/shops/nearby" to="/shops/nearby">
                         Nearby Shops
-                    </NavItem>,
+                    </NavItem>
                     <NavItem key={2} componentClass={Link} href="/shops/favorite" to="/shops/favorite">
                         My Favorite Shops
-                    </NavItem>,
+                    </NavItem>
                     <NavItem key={3} componentClass={Link} href="/profile" to="/profile">
                         Profile
-                    </NavItem>,
+                    </NavItem>
                     <NavItem key={4} componentClass={Link} href="/logout" to="/logout">
                         Logout
                     </NavItem>
-                ]
+                </Nav>,
+                <Nav key={2} pullRight>
+                    <NavItem >
+                        <CaptureUserLocation />
+                    </NavItem>
+                </Nav>]
             );
 
         } else {
             return (
-                [
+                
+                <Nav>
                     <NavItem key={1} componentClass={Link} href="/login" to="/login">
                         Login
-                    </NavItem>,
+                    </NavItem>
                     <NavItem key={2} componentClass={Link} href="/signup" to="/signup">
                         Sign Up
                     </NavItem>
-                ]
+                </Nav>
+                
             );
         }
     }
@@ -52,9 +59,7 @@ class Header extends Component {
                         <Link to="/">Demo Shops</Link>
                     </Navbar.Brand>
                 </Navbar.Header>
-                <Nav>
-                    {this.renderLinks()}
-                </Nav>
+                {this.renderLinks()}
             </Navbar>
         )
     }

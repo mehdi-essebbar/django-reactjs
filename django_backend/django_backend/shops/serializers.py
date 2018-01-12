@@ -114,6 +114,6 @@ class FavoriteShopSerilizer(serializers.Serializer):
     
     def save(self):
         self.check_favorite_already()
-        favorite_shop = FavoriteShop(shop=self.shop, user=self.user)
+        favorite_shop = FavoriteShop(shop=self.shop, user=self.user, location=self.shop.location)
         favorite_shop.save()
         

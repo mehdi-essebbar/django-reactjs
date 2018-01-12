@@ -16,8 +16,26 @@ from mongoengine.errors import DoesNotExist
 
 import os
 from bson import ObjectId
- 
 
+# a function that validate data from query_params 
+# it checks if latitude and longitude are valid inputs
+def validate_location(data):
+    # order query results
+    if 'lat' in data and 'lng' in data :
+        # coordinates needs to be validated and typed 
+        lat = data["lat"]
+        lng = data["lng"]
+        
+        try:
+            lat = float(lat)
+            lng = float(lng)
+        except ValueError:
+            return []
+            
+        if -90<=lat and lat<=90 and -180 <=lng and lng<= 180:
+            return [lat, lng] 
+            
+    return []
 
 class NearbyShopView(ListAPIView):
     # This view takes as input the coordinates of the user
@@ -47,13 +65,12 @@ class NearbyShopView(ListAPIView):
 
         result = Shop.objects.filter(id__nin=disliked_shops_2h).limit(5)
         
-        # order query results
-        if 'location' in self.request.query_params:
-            # coordinates needs to be validated and typed 
-            result = result.objects(location__near=self.request.query_params['location'])
+        location = validate_location(self.request.query_params)
+        if location:
+            result = result.filter(location__near=location)
         
         return result
- 
+    
 class DislikeShopView(GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     authentication_classes = (TokenAuthentication, )
@@ -79,7 +96,19 @@ class FavoriteShopView(mixins.DestroyModelMixin,
         return serializer.get_object()
     
     def get_queryset(self):
-        return [favorite_shop.shop for favorite_shop in FavoriteShop.objects(user=self.request.user)]
+        location = validate_location(self.request.query_params)
+        if location:
+            subQuery = FavoriteShop.objects(user=self.request.user, location__near=location)
+        else:
+            subQuery = FavoriteShop.objects(user=self.request.user)
+            
+        results = [favorite_shop.shop for favorite_shop in subQuery]
+            
+        """
+        if location:
+            results = results.filter(location__near=location)"""
+        
+        return results
  
     def get(self, request, *args, **kwargs):
         
