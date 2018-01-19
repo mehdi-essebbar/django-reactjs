@@ -37,11 +37,25 @@ export function loginUser(formValues, dispatch) {
         });
 }
 
-export function logoutUser() {
+export function logoutUser(dispatch) {
     localStorage.removeItem("token");
-    return {
-        type: AuthTypes.LOGOUT
-    };
+    const logoutUrl = AuthUrls.LOGOUT;
+    const token = getUserToken(store.getState());
+    axios.get(logoutUrl, {
+                headers: {
+                    authorization: 'Token ' + token
+                }
+            }).then((response) => {
+        
+     console.log("logout successfully.");
+    }).catch( error => {
+        // print something about logout fail ...
+        console.log("logout failed.");
+    });
+    
+    return ({
+            type: AuthTypes.LOGOUT
+            });
 }
 
 export function signupUser(formValues, dispatch) {
