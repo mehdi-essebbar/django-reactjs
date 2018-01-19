@@ -16,11 +16,24 @@ from .models import User, PasswordResetToken
 
 
 class AuthTokenSerializer(serializers.Serializer):
-    username = serializers.CharField(label=_("Username"))
+    #username = serializers.CharField(label=_("Username"))
+    email = serializers.EmailField(label=_("Email"))
     password = serializers.CharField(label=_("Password"), style={'input_type': 'password'})
-
+    
+    def validate_email(self, email):
+        # email validation start by checking if the email address exists in
+        # the database.
+        try:
+            user = User.objects.get(email=email)
+        except DoesNotExist:
+            raise serializers.ValidationError("No user account attached to the provided email.")
+        
+        self.username = user.username
+        return email
+        
     def validate(self, attrs):
-        username = attrs.get('username')
+        #username = attrs.get('username')
+        username = self.username
         password = attrs.get('password')
 
         if username and password:

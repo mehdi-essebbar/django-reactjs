@@ -117,7 +117,7 @@ DATABASES = {
 }
 
 MONGODB_DATABASES = {
-    "distant": {
+    "local": {
         "name": "project",
         "host": "mongodb://admin:azerty@cluster0-shard-00-00-uaelv.mongodb.net:27017,cluster0-shard-00-01-uaelv.mongodb.net:27017,cluster0-shard-00-02-uaelv.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin",
         "port": 27017,

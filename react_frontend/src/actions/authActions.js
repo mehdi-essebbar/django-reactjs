@@ -16,13 +16,13 @@ export function authLogin(token) {
     };
 }
 
-export function loginUser(formValues, dispatch, props) {
+export function loginUser(formValues, dispatch) {
         const loginUrl = AuthUrls.LOGIN;
 
         return axios.post(loginUrl, formValues).then((response) => {
             // If request is good...
             // Update state to indicate user is authenticated
-            console.log(response)
+            //console.log(response)
             
             const token = response.data.token;
             dispatch(authLogin(token));
@@ -44,12 +44,12 @@ export function logoutUser() {
     };
 }
 
-export function signupUser(formValues, dispatch, props) {
+export function signupUser(formValues, dispatch) {
     const signupUrl = AuthUrls.SIGNUP;
 
     return axios.post(signupUrl, formValues)
         .then((response) => {
-            console.log(response);
+            //console.log(response);
             // If request is good...
             // you can login if email verification is turned off.
             // const token = response.data.key;
@@ -88,14 +88,14 @@ export function getUserProfile() {
             }).catch((error) => {
                 // If request is bad...
                 // Show an error to the user
-                console.log(error);
+                //console.log(error);
                 // TODO: send notification and redirect
             });
         }
     };
 }
 
-export function changePassword(formValues, dispatch, props) {
+export function changePassword(formValues, dispatch) {
     const changePasswordUrl = AuthUrls.CHANGE_PASSWORD;
     const token = getUserToken(store.getState());
 
@@ -105,7 +105,7 @@ export function changePassword(formValues, dispatch, props) {
                 authorization: 'Token ' + token
             }
         })
-            .then((response) => {
+            .then(() => {
                 dispatch(notifSend({
                     message: "Password has been changed successfully",
                     kind: "info",
@@ -123,7 +123,7 @@ export function changePassword(formValues, dispatch, props) {
     }
 }
 
-export function resetPassword(formValues, dispatch, props) {
+export function resetPassword(formValues, dispatch) {
     const resetPasswordUrl = AuthUrls.RESET_PASSWORD;
 
     return axios.post(resetPasswordUrl, formValues)
@@ -144,7 +144,7 @@ export function confirmPasswordChange(formValues, dispatch, props) {
     const data = Object.assign(formValues, { token });
 
     return axios.post(resetPasswordConfirmUrl, data)
-        .then(response => {
+        .then(() => {
             dispatch(notifSend({
                 message: "Password has been reset successfully, please log in",
                 kind: "info",
@@ -169,7 +169,7 @@ export function activateUserAccount(formValues, dispatch, props) {
                 params:{
                 token: data["key"]
                 }
-        }).then(response => {
+        }).then(() => {
             dispatch(notifSend({
                 message: "Your account has been activated successfully, please log in",
                 kind: "info",
@@ -185,16 +185,16 @@ export function activateUserAccount(formValues, dispatch, props) {
         });
 }
 
-export function updateUserProfile(formValues, dispatch, props) {
+export function updateUserProfile(formValues, dispatch) {
     const token = getUserToken(store.getState());
-    console.log("balbla")
-    console.log(token)
+    //console.log("balbla")
+    //console.log(token)
     return axios.patch(AuthUrls.USER_PROFILE, formValues, {
         headers: {
             authorization: 'Token ' + token
         }
     })
-        .then(response => {
+        .then(() => {
             dispatch(notifSend({
                 message: "Your profile has been updated successfully",
                 kind: "info",

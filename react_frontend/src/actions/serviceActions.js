@@ -1,8 +1,5 @@
 import axios from "axios";
-import { SubmissionError } from 'redux-form';
-import history from "../utils/historyUtils";
 import { actions as notifActions } from 'redux-notifications';
-const { notifSend } = notifActions;
 
 import { ServiceTypes } from "../constants/actionTypes";
 import { ServiceUrls } from "../constants/urls";
@@ -38,7 +35,7 @@ export function getShops(isFavoriteList, page) {
             }).catch((error) => {
                 // If request is bad...
                 // Show an error to the user
-                console.log(error);
+                //console.log(error);
                 // TODO: send notification and redirect
             });
         }
@@ -67,7 +64,7 @@ export function likeShop(shop_id) {
             }).catch((error) => {
                 // If request is bad...
                 // Show an error to the user
-                console.log(error);
+                //console.log(error);
                 // TODO: send notification and redirect
                 //dispatch(setLiked(false));
             });
@@ -110,7 +107,7 @@ export function dislikeShop(shop_id, isFavoriteList) {
             }).catch((error) => {
                 // If request is bad...
                 // Show an error to the user
-                console.log(error);
+                //console.log(error);
                 // TODO: send notification and redirect
                 //dispatch(setDisliked(false));
             });
