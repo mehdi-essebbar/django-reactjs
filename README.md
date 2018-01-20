@@ -10,7 +10,7 @@ Tools:
 - mongoengine 0.15.0
 - pymongo 3.6.0
 
--MongoDB 3.4
+- MongoDB 3.4
     
 How it works:
 
