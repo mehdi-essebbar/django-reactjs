@@ -4,13 +4,13 @@ This web application is supposed to solve a challenge. It uses Django Rest Frame
 ## Backend: Django/ Django-rest-framework / MongoDB
 
 Tools:
-    - django 1.9
-    - django-rest-framework 3.3.1
-    - python 3.6
-    - mongoengine 0.15.0
-    - pymongo 3.6.0
+- django 1.9
+- django-rest-framework 3.3.1
+- python 3.6
+- mongoengine 0.15.0
+- pymongo 3.6.0
 
-    -MongoDB 3.4
+-MongoDB 3.4
     
 How it works:
 
@@ -44,9 +44,9 @@ Tools:
     
 How it works:
     
-    - install npm: go to https://nodejs.org/en/ and download NodeJs. Then install it in your environment
-    - install the modules: open the command line and locate yourself in the react_frontend folder. Then run the next command line `npm install`
-    - launch the server: `npm run start` to run the frontend server. 
+- install npm: go to https://nodejs.org/en/ and download NodeJs. Then install it in your environment
+- install the modules: open the command line and locate yourself in the react_frontend folder. Then run the next command line `npm install`
+- launch the server: `npm run start` to run the frontend server. 
     
 ## Issue Reporting
 
