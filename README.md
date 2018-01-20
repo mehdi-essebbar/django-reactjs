@@ -14,23 +14,23 @@ Tools:
     
 How it works:
 
-- install the database:
+- Install the database:
     Go to MongoDB website (https://www.mongodb.com/download-center#community). Find your developpement environement, then download MongoDB installer.
     You can choose a specific version of MongoDB by checking the All version binaries link in the page.
     Install your MongoDB database now.
     
-- install python version 3.6, together with pip and virtualenv.
-- clone the repository from my github https://github.com/Mehdi6/django-reactjs, and place it in a new folder.
-- install a virtualenv:
+- Install python version 3.6, together with pip and virtualenv.
+- Clone the repository from my github https://github.com/Mehdi6/django-reactjs, and place it in a new folder.
+- Install a virtualenv:
     run the command line, place yourself inside the folder of the project then create activate your new virtualenv.
     install the requirements by runing the following command: `pip install -r requirements.txt`
-- import data
+- Import data
     Now we need to create a new database where our application data will live.
-    All you need is to run the data_import.py script. Go to the django_backend folder and run the data_import script. This script will import dump data from a remote server about shops and transfer them to a new database.
+    All you need is to run the data_import.py script. Go to the django_backend folder and run the data_import script. This script will import data from a remote server about shops and transfer them to a new database.
     
-- run the server
-    first run the command : `python manage.py migrate`
-    then: `python manage.py runserver`
+- Run the server
+    First run the command : `python manage.py migrate`
+    Then: `python manage.py runserver`
     
 ## Frontend: React/ Redux / NodeJS
 
@@ -44,9 +44,9 @@ Tools:
     
 How it works:
     
-- install npm: go to https://nodejs.org/en/ and download NodeJs. Then install it in your environment
-- install the modules: open the command line and locate yourself in the react_frontend folder. Then run the next command line `npm install`
-- launch the server: `npm run start` to run the frontend server. 
+- Install npm: go to https://nodejs.org/en/ and download NodeJs. Then install it in your environment
+- Install the modules: open the command line and locate yourself in the react_frontend folder. Then run the next command line `npm install`
+- Launch the server: `npm run start` to run the frontend server. 
     
 ## Issue Reporting
 
