@@ -16,6 +16,7 @@ from .models import User, PasswordResetToken
 
 
 class AuthTokenSerializer(serializers.Serializer):
+    
     #username = serializers.CharField(label=_("Username"))
     email = serializers.EmailField(label=_("Email"))
     password = serializers.CharField(label=_("Password"), style={'input_type': 'password'})
@@ -71,6 +72,7 @@ class UserSerializer(DocumentSerializer):
     
 
 class SignUpSerializer(serializers.Serializer):
+
     username = serializers.CharField(
         max_length=120,
         min_length=5)

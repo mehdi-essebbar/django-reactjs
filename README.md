@@ -1,63 +1,57 @@
 # django-reactJs
-This web application is supposed to solve a challenge. It uses Django/python for the backend and ReactJs in the frontend. Further information about the challenge can be found following this link: https://github.com/hiddenfounders/web-coding-challenge/blob/master/README.md
+This web application is supposed to solve a challenge. It uses Django Rest Framework for the backend and ReactJs in the frontend. Further information about the challenge can be found following this link: https://github.com/hiddenfounders/web-coding-challenge/blob/master/README.md
 
-# A React/Redux Authentication Demo Site, using DjangoRestFramework/DjangoRestAuth
+## Backend: Django/ Django-rest-framework / MongoDB
 
--It is a good demonstration of how to integrate react/redux with django-rest-framework to build
-a fully functional web application. 
+Tools:
+    - django 1.9
+    - django-rest-framework 3.3.1
+    - python 3.6
+    - mongoengine 0.15.0
+    - pymongo 3.6.0
+    
+    -MongoDB 3.4
+    
+How it works:
+    
+    - install the database:
+        Go to MongoDB website (https://www.mongodb.com/download-center#community). Find your developpement environement, then download MongoDB installer.
+        You can choose a specific version of MongoDB by checking the All version binaries link in the page.
+        Install your MongoDB database now.
+        
+    - install python version 3.6, together with pip and virtualenv.
+    - clone the repository from my github https://github.com/Mehdi6/django-reactjs, and place it in a new folder.
+    - install a virtualenv:
+        run the command line, place yourself inside the folder of the project then create activate your new virtualenv.
+        install the requirements by runing the following command: `pip install -r requirements.txt`
+    - import data
+        Now we need to create a new database where our application data will live.
+        All you need is to run the data_import.py script. Go to the django_backend folder and run the data_import script. This script will import dump data from a remote server about shops and transfer them to a new database.
+        
+    - run the server
+        first run the command : `python manage.py migrate`
+        then: `python manage.py runserver`
+    
+## Frontend: React/ Redux / NodeJS
 
--It can also serve as a starter template for building a variety
-of web applications that needs authentication.
-
-## Backend:
-   - django 1.11
-   - django-rest-framework 3.7
-   - django-rest-auth 0.9.2
-
-## Frontend:
-   - webpack
-   - React v16
-   - React Router 4
-   - Redux
-   - reactstrap (Bootstrap 4 components)
-
-
-## How to use it
-
-Clone the repository, which includes both backend and frontend.
-
-## Backend: Django, Django Rest Framework and Django-Rest-Auth
-
-cd to django_backend directory
-
-create your virtualenv and activate (python3) 
-under win: python -m venv 'envname'
-
-run `pip install -r requirements.txt` to install all django dependencies.
-
-run `python manage.py migrate` to migrate database.
-
-run `python manage.py runserver` to start django development server to serve the demo site.
-
-the backend server should be localhost:8000.
-
-## Frontend: React/Redux
-
-all JavaScript and html source code are within react_src directory, bundle.js will be generated in 
-static/js directory. index.html will be generated in templates/project directory.
-
-run `npm install` to install all node dependencies.
-
-run `npm run start` to start the webpack dev server for frontend app.
-
-now you can go to localhost:8083 to access the main page of the demo site.
-
+Tools:
+    - react 
+    - redux
+    - react-google-maps
+    - react-bootstrap
+    - axios
+    - webpack
+    
+How it works:
+    
+    - install npm: go to https://nodejs.org/en/ and download NodeJs. Then install it in your environment
+    - install the modules: open the command line and locate yourself in the react_frontend folder. Then run the next command line `npm install`
+    - launch the server: `npm run start` to run the frontend server. 
+    
 ## Issue Reporting
 
 If you have found a bug or feature request, please report them at the repository issues section.
-
-## License
+    
+## License 
 
 MIT
-
-

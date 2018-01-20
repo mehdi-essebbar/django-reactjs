@@ -8,7 +8,6 @@ from rest_framework.reverse import reverse
 
 from rest_framework import views, mixins, permissions, exceptions, status
 from rest_framework.response import Response
-from rest_framework_mongoengine import viewsets
 from rest_framework import parsers, renderers
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
 
@@ -17,7 +16,7 @@ from .models import User, Token, EmailValidationToken
 from .authentication import TokenAuthentication
 from mongoengine.errors import DoesNotExist
 
-import binascii, os, datetime, pytz
+import binascii, os, datetime
 from project import settings
 
 sensitive_post_parameters_m = method_decorator(
@@ -26,22 +25,6 @@ sensitive_post_parameters_m = method_decorator(
     )
 )
 
-class UserViewSet(mixins.RetrieveModelMixin,
-                  mixins.UpdateModelMixin,
-                  viewsets.GenericViewSet):
-    """
-    Read-only User endpoint
-    """
-    permission_classes = (permissions.IsAuthenticated, )  # IsAdminUser?
-    authentication_classes = (TokenAuthentication, )
-    serializer_class = UserSerializer
-
-    def get_object(self):
-        return self.request.user
-    
-    def put(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
-        
 class UserView(RetrieveUpdateAPIView):
     permission_classes = (permissions.IsAuthenticated, )  # IsAdminUser?
     authentication_classes = (TokenAuthentication, )
@@ -59,8 +42,6 @@ class UserView(RetrieveUpdateAPIView):
     
 class PasswordChangeView(GenericAPIView):
     """
-    Calls Django Auth SetPasswordForm save method.
-
     Accepts the following POST parameters: new_password1, new_password2
     Returns the success/fail message.
     """
@@ -86,11 +67,10 @@ class SignUpView(GenericAPIView):
     serializer_class = SignUpSerializer
     
     def post(self, request, *args, **kwargs):
-        #result = self.create(request, *args, **kwargs)
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(request)
-                
+        
         (token, validToken) = self.create_token(User.objects.get(username=serializer.validated_data['username']))
         sent = self.send_validation_email(serializer.validated_data['email'], token)
         
@@ -148,10 +128,6 @@ class ValidateEmailView(GenericAPIView):
             msg = {"detail": _("Your token is not valid.")} 
             return Response(msg, status=status.HTTP_400_BAD_REQUEST)
             
-        #TODO import django.timezone ... timezone.now
-        
-        #tmz = pytz.timezone(settings.TIME_ZONE)
-        #expiration = (tmz.localize(datetime.datetime.now()) - valid.created_at)
         expiration = timezone.now() - valid.created_at
         
         # If the validation email was sent above 15 mins ago, then it expired
@@ -168,17 +144,7 @@ class ValidateEmailView(GenericAPIView):
         msg = {"detail": _("Your Email is now validated.")}
         return Response(msg, status=status.HTTP_200_OK)
     
-# TODO :
-"""
-    DONE-Sign Up with email comfirmation
-    -Login
-    DONE-Update user information:
-    -Update email
-"""
-
 class ResetPasswordView(GenericAPIView):
-    #authentication_classes = (TokenAuthentication ) // No need
-    # url/?email=email@mail.com
     serializer_class = PasswordResetSerializer
     
     def post(self, request, *args, **kwargs):
@@ -212,7 +178,6 @@ class LogoutView(GenericAPIView):
     
     def get(self, request, *args, **kargs):
         usr = self.request.user
-        #print (usr)
         msg = {"detail": _("Successfully logged out.")}
         
         try:
@@ -228,7 +193,6 @@ class LoginView(views.APIView):
     serializer_class = AuthTokenSerializer
 
     def post(self, request, *args, **kwargs):
-        #print (request.data)
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         
@@ -241,5 +205,3 @@ class LoginView(views.APIView):
             
         return Response({'token': token.key})
 
-
-#obtain_auth_token = ObtainAuthToken.as_view()

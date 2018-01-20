@@ -18,7 +18,6 @@ import sys
 
 
 class NearbyShopSerializer(DocumentSerializer):
-    #shop_id = fields.ObjectIdField(source='id')
     is_favorite = serializers.SerializerMethodField()
     
     class Meta:
@@ -37,8 +36,6 @@ class NearbyShopSerializer(DocumentSerializer):
             return 0
             
         return 1
-        
-
         
 class DislikeShopSerializer(serializers.Serializer):
     
@@ -69,14 +66,12 @@ class DislikeShopSerializer(serializers.Serializer):
         
         dislike = DislikeShop(user=self.user, shop=self.shop)
         dislike.save()
+    
 """
-class FavoriteShopSerilizer(DocumentSerializer):
+    The favorite shop serializer will serialize data about favorite shops.
+    it validate the id of a shop, which has to be an ObjectId.
     
-    class Meta:
-        model= Shop
-        fields= '__all__'
-    """
-    
+"""
 class FavoriteShopSerilizer(serializers.Serializer):
     id = serializers.CharField()
     

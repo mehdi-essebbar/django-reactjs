@@ -8,7 +8,7 @@ from rest_framework import parsers, renderers
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView, ListAPIView, CreateAPIView
 from rest_framework.pagination import PageNumberPagination
 
-from .serializers import NearbyShopSerializer, DislikeShopSerializer, FavoriteShopSerilizer#, RemoveCreateFavoriteShopSerializer
+from .serializers import NearbyShopSerializer, DislikeShopSerializer, FavoriteShopSerilizer
 from .models import Shop, FavoriteShop, DislikeShop
 
 from django_backend.restauth.models import User
@@ -51,7 +51,7 @@ class NearbyShopView(ListAPIView):
     
     # The resulting list must not include diliked shops (> 2hours)
     # It must inlude an additional attributes that states whether
-    # the user has alreaded added the shop as a favorite or not.
+    # the user has already added the shop as a favorite or not.
     
     permission_classes = (permissions.IsAuthenticated,)
     authentication_classes = (TokenAuthentication,)
@@ -77,7 +77,12 @@ class NearbyShopView(ListAPIView):
             result = result.filter(location__near=location)
         
         return result
-    
+
+"""
+    The dislike shop view handles post requests with the shop id as input
+    paramater. If the shop is in the favorite shop list, it is deleted from
+    it then added to the list of disliked shops.
+"""
 class DislikeShopView(GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     authentication_classes = (TokenAuthentication, )
@@ -90,12 +95,24 @@ class DislikeShopView(GenericAPIView):
         
         return Response("Shop disliked successfully.", status=status.HTTP_201_CREATED)
         
+"""
+    This view handles three different kind of requests.
+    It servers a get request, taking into account the user's auth token,
+    it then returns the list of favorite shops.
+    It serves two post requests:
+        (1) POST: Adds a shop into the list of favorite shops of a user.
+        (2) POST: removes a shop from the list of favorite shops.
+    
+"""
 class FavoriteShopView(mixins.DestroyModelMixin,
                         mixins.CreateModelMixin, GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     authentication_classes = (TokenAuthentication, )
     serializer_class = FavoriteShopSerilizer
     pagination_class = MyPaginationClass
+    
+    # we need to override this function to serve the delete mixin the right
+    # shop object that was requested by the user.
     
     def get_object(self):
         serializer = self.get_serializer(data=self.request.data)
@@ -105,24 +122,18 @@ class FavoriteShopView(mixins.DestroyModelMixin,
     
     def get_queryset(self):
         location = validate_location(self.request.query_params)
+        # If the query parameter about the user's location is included, sort 
+        # the list of shops according to the nearest one.
         if location:
             subQuery = FavoriteShop.objects(user=self.request.user, location__near=location)
         else:
             subQuery = FavoriteShop.objects(user=self.request.user)
             
         results = [favorite_shop.shop for favorite_shop in subQuery]
-            
-        """
-        if location:
-            results = results.filter(location__near=location)"""
         
         return results
  
     def get(self, request, *args, **kwargs):
-        """
-        serializer = NearbyShopSerializer(self.get_queryset(), many=True)
-        return Response(serializer.data)
-        """
         return self.list(request, *args, **kwargs)
     
     def list(self, request, *args, **kwargs):
@@ -140,6 +151,5 @@ class FavoriteShopView(mixins.DestroyModelMixin,
         return self.destroy(request, *args, **kwargs)
         
     def post(self, request, *args, **kwargs):
-        print (request.data)
         return self.create(request, *args, **kwargs)
         
