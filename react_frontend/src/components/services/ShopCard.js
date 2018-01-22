@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { likeShop, dislikeShop } from "../../actions/serviceActions";
-import {Thumbnail} from "react-bootstrap";
+import {Thumbnail, Button} from "react-bootstrap";
 
 
 class ShopCard extends Component {
     constructor(props){
         super(props)
-        this.state = { disableLikeButton: "", removeCard:null };
+        this.state = { disableLikeButton: false, removeCard:null };
     }
     
     static propTypes = {
@@ -36,7 +36,7 @@ class ShopCard extends Component {
     {
         //console.log(nextProps);
         if(this.props.value.id==nextProps.liked)
-            this.setState({disableLikeButton:" disabled"});
+            this.setState({disableLikeButton:true});
         
         if(this.props.value.id==nextProps.disliked)
             this.setState({removeCard:{display: "none"}});   
@@ -47,8 +47,8 @@ class ShopCard extends Component {
         // if the component is being rendred in the favorite list, no need to add a like button.
         if(!this.props.isFavoriteList){
             if(isFavorite)
-                return (<button className="btn btn-primary disabled">Like</button>);
-            return (<button className={"btn btn-primary"+this.state.disableLikeButton} onClick={()=> this.likeFunc(id)}>Like</button>);
+                return (<Button bsStyle="primary" disabled>Like</Button>);
+            return (<Button bsStyle="primary" disabled={this.state.disableLikeButton} onClick={()=> this.likeFunc(id)}>Like</Button>);
         }
         return null;
     }
@@ -58,15 +58,13 @@ class ShopCard extends Component {
         return (
             <div style={this.state.removeCard}>
                 <Thumbnail src={shop.picture} alt="Card image cap">
-                    <div className="card-block">
-                        <h4 className="card-title">Name: {shop.name}</h4>
-                        <p className="card-text">Email: {shop.email}</p>
-                        <p className="card-text">City: {shop.city}</p>                        
-                        {" "}
-                        <hr />
-                        <button className="btn btn-primary mr-2"  onClick={() => this.dislikeFunc(shop.id)}>Dislike</button>
-                        {this.renderLikeButton(shop.is_favorite, shop.id)}
-                    </div>
+                    <h4 >Name: {shop.name}</h4>
+                    <p >Email: {shop.email}</p>
+                    <p >City: {shop.city}</p>                        
+                    {" "}
+                    <hr />
+                    <Button bsStyle="danger" onClick={() => this.dislikeFunc(shop.id)}>{this.props.isFavoriteList?"Remove":"Dislike"}</Button>
+                    {this.renderLikeButton(shop.is_favorite, shop.id)}
                 </Thumbnail>
             </div>
         );

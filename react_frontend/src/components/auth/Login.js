@@ -6,6 +6,20 @@ import { required } from "redux-form-validators"
 
 import { renderField, renderError} from "../../utils/renderUtils";
 import { loginUser } from "../../actions/authActions";
+import { Form, FormGroup, FormControl, Col, Button, ControlLabel } from "react-bootstrap";
+
+const renderFieldControl = ({ input, meta, type, placeholder, meta: {touched, error }}) => {
+    return (
+        <div>
+        <FormControl
+            type={type}
+            placeholder={placeholder}
+            value={input.value}
+            onChange={input.onChange} />
+        {touched && ((error && <div className="alert alert-danger p-1"><small>{error}</small></div>))}
+        </div>
+    )
+}
 
 class Login extends Component {
 
@@ -15,7 +29,7 @@ class Login extends Component {
 
     render() {
         const { handleSubmit, error } = this.props;
-
+            
         return (
             <div className="row justify-content-center">
 

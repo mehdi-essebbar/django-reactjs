@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getUserProfile } from "../../actions/authActions";
+import { Button } from "react-bootstrap";
+import history from "../../utils/historyUtils";
 
 class UserProfile extends Component {
 
@@ -35,15 +37,23 @@ class UserProfile extends Component {
         }
         return null;
     }
-
+    
+    handleUpdateProfile(){
+        history.push("/profile_edit");
+    }
+    
+    handleChangePassword(){
+        history.push("/change_password");
+    }
+    
     render() {
         return (
             <div>
                 {this.renderUser()}
                 {" "}
                 <hr />
-                <Link className="btn btn-primary mr-2" to="/profile_edit">Update Profile</Link>
-                <Link className="btn btn-primary" to="/change_password">Change Password</Link>
+                <Button bsStyle="primary" onClick={()=> this.handleUpdateProfile()}> Update Profile </Button>
+                <Button bsStyle="primary" onClick={()=> this.handleChangePassword()}> Change Password </Button>
             </div>
         );
     }

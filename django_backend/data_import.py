@@ -36,14 +36,9 @@ host = "mongodb://admin:azerty@cluster0-shard-00-00-uaelv.mongodb.net:27017,clus
 host_local = "127.0.0.1:27017"
 
 connect(db="shops", alias="shops", host=host)
-#register_connection(name="test", alias="test", host=host)
 register_connection(name="test", alias="test_local", host=host_local)
 
 
 for shop in Shops.objects.all():
     new_shop =Shop(name=shop.name, picture=shop.picture, email=shop.email, city=shop.city, location=shop.location)
     new_shop.save()
-
-print (Shop.objects.all().count())
-#shop = Shops(name='test_name', picture="http://www.example.com", email="my_email@gmail.com", city="Rbat")
-#shop.save()
