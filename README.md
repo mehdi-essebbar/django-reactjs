@@ -1,5 +1,5 @@
 # django-reactJs
-This web application is supposed to solve a challenge. It uses Django Rest Framework for the backend and ReactJs in the frontend. Further information about the challenge can be found following this link: https://github.com/hiddenfounders/web-coding-challenge/blob/master/README.md
+This web application is supposed to solve a challenge. It uses Django Rest Framework for the backend and ReactJs in the frontend. Further information about the challenge can be found following [this link](https://github.com/hiddenfounders/web-coding-challenge/blob/master/README.md).
 
 ## Backend: Django/ Django-rest-framework / MongoDB
 
@@ -49,6 +49,12 @@ How it works:
 - Install the modules: open the command line and locate yourself in the react_frontend folder. Then run the next command line `npm install`
 - Launch the server: `npm run start` to run the frontend server. 
 - The server is now running on http://localhost:8083/
+
+## What do I need to know to test the web application?
+
+While testing the web app features, you will probably need to check emails sent by the backend. All the emails during the development mode are stored in the `tmp` folder (project_folder/django_backend/django_backend/tmp). When you signup, an email will be sent and stored in that folder, you will need to check the link that it contains, and run it in your browser to activate the user account.
+
+A version of the [web application](https://django-react-mongo.herokuapp.com/) is deployed on heroku, if you want to see what it looks like.
 
 ## Issue Reporting
 
