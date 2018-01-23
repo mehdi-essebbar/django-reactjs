@@ -29,9 +29,9 @@ How it works:
     All you need is to run the data_import.py script. Go to the django_backend folder and run the `data_import.py` script. This script will import data from a remote server about shops and transfer them to a new database. Don't forget to run a MongoDB database instance first in your local environment.
     
 - Run the server
-* First run the command : `python manage.py migrate`
-* Then: `python manage.py runserver`
-* The server is now running on http://localhost:8000/
+(1) First run the command : `python manage.py migrate`
+(2) Then: `python manage.py runserver`
+(3) The server is now running on http://localhost:8000/
 
 ## Frontend: React/ Redux / NodeJS
 
