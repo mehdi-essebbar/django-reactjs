@@ -4,7 +4,7 @@ defusedxml==0.5.0
 Django==1.9
 django-cors-headers==2.1.0
 django-rest-framework-mongoengine==3.3.1
-djangorestframework==3.3.3
+djangorestframework==3.11.2
 idna==2.6
 mongoengine==0.15.0
 oauthlib==2.0.6
