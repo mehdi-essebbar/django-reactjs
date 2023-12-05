@@ -15,11 +15,11 @@ Tools:
 How it works:
 
 - Install the database management system:
-    Go to MongoDB [website](https://www.mongodb.com/download-center#community). Find your development environment, then download MongoDB installer.
+    Go to MongoDB [website](https://www.mongodb.com/try/download/community). Find your development environment, then download MongoDB installer.
     You can choose a specific version of MongoDB by checking the All version binaries link in the page.
     Install your MongoDB database now.
     
-- Install python version 3.6, together with [pip](https://pip.pypa.io/en/stable/installing/) and [virtualenv](https://virtualenv.pypa.io/en/stable/installation/). 
+- Install python version 3.6, together with [pip](https://pip.pypa.io/en/stable/installation/) and [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html). 
 - Clone the repository from my [github](https://github.com/Mehdi6/django-reactjs), and place it in a new folder.
 - Install a virtualenv:
     run the command line, place yourself inside the project's folder, then create your new virtualenv.
@@ -53,8 +53,6 @@ How it works:
 ## What do I need to know to test the web application?
 
 While testing the web app features, you will probably need to check emails sent by the backend. All the emails during the development mode are stored in the `tmp` folder (project_folder/django_backend/django_backend/tmp). When you signup, an email will be sent and stored in that folder, you will need to check the link that it contains, and run it in your browser to activate the user account.
-
-A version of the [web application](https://django-react-mongo.herokuapp.com/) is deployed on heroku, if you want to see what it looks like.
 
 ## Issue Reporting
 
